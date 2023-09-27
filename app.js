@@ -1405,44 +1405,51 @@ const title = document.getElementById("title-div");
 const imageDiv = document.getElementById("image-div");
 const arrayLength = foods.length;
 const buttons = document.querySelectorAll("button");
+const artistDescription = document.getElementById("artist-description");
 
 for (let i = 0; i < buttons.length; i++) {
   console.log("boogie");
-  buttons[i].addEventListener("click", getData);
+  buttons[i].addEventListener("click", getNextFood);
 }
 
-async function getData() {
-  const newFood = randomFood();
-  title.textContent = newFood;
+// *******************************************************
 
+async function getData(newFood, apiKey) {
+  console.log(apiKey);
+
+  // Get data from Unsplash
   const results = await fetch(
     `https://api.unsplash.com/search/photos/?query=${newFood}&page=1&per_page=1&client_id=${apiKey}`,
     { mode: "cors" }
   );
-
   const myData = await results.json();
   console.log(myData);
-  const picture = myData.results[0].urls.full;
-  const artistName = myData.results[0].user.name;
-  const artistURL = myData.results[0].user.links.self;
-  const unsplash =
-    "https://unsplash.com/?utm_source=your_app_name&utm_medium=referral";
 
-  const image = createImg();
-  image.src = picture;
+  // Get picture URL
+  const pictureURL = myData.results[0].urls.full;
+
+  // Get artist attribution details
+  const artistName = myData.results[0].user.name;
+  const artistURL = myData.results[0].user.links.html;
+
+  // Create artist credits in "p" element
+  createArtistCredits(artistName, artistURL);
+
+  return pictureURL;
 }
 
-getData();
-
+// Generate a random number
 function randomFunc(max) {
   return Math.floor(Math.random() * max);
 }
 
+// Get random food from array using random number
 function randomFood() {
   const randomNumber = randomFunc(arrayLength);
   return foods[randomNumber];
 }
 
+// Create image element and append it to image div
 function createImg() {
   imageDiv.innerHTML = "";
   const image = document.createElement("img");
@@ -1450,3 +1457,29 @@ function createImg() {
   image.style.maxWidth = "400px";
   return image;
 }
+
+// Create artist credits using the URLs provided
+function createArtistCredits(artistName, artistURL) {
+  const myAppURL = "?utm_source=humble_or_noble&utm_medium=referral ";
+  const myString = `Photo by <a href="${artistURL}${myAppURL}">${artistName}</a> on <a href="https://unsplash.com/${myAppURL}">Unsplash</a>`;
+  artistDescription.innerHTML = myString;
+}
+
+// Get next food when buttons are clicked ** Main function
+async function getNextFood() {
+  //Get new food name
+  const newFood = randomFood();
+
+  // h1 textcontent = food name
+  title.textContent = newFood;
+
+  // Get picture URL from Unsplash
+  const pictureURL = await getData(newFood, apiKey);
+  console.log(pictureURL);
+
+  // Create image and set it's URL as the unsplash URL
+  const image = createImg();
+  image.src = pictureURL;
+}
+
+getNextFood();
