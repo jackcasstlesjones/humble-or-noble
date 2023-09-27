@@ -1404,6 +1404,12 @@ const apiKey = "-LWIU-yUeCb4jaPIoDopccTQmKw62z0jcWX5Au61CAo";
 const title = document.getElementById("title-div");
 const imageDiv = document.getElementById("image-div");
 const arrayLength = foods.length;
+const buttons = document.querySelectorAll("button");
+
+for (let i = 0; i < buttons.length; i++) {
+  console.log("boogie");
+  buttons[i].addEventListener("click", getData);
+}
 
 async function getData() {
   const newFood = randomFood();
@@ -1417,7 +1423,11 @@ async function getData() {
   const myData = await results.json();
   console.log(myData);
   const picture = myData.results[0].urls.full;
-  console.log(picture);
+  const artistName = myData.results[0].user.name;
+  const artistURL = myData.results[0].user.links.self;
+  const unsplash =
+    "https://unsplash.com/?utm_source=your_app_name&utm_medium=referral";
+
   const image = createImg();
   image.src = picture;
 }
@@ -1434,7 +1444,9 @@ function randomFood() {
 }
 
 function createImg() {
+  imageDiv.innerHTML = "";
   const image = document.createElement("img");
-  imageDiv.appendChild("img");
+  imageDiv.appendChild(image);
+  image.style.maxWidth = "400px";
   return image;
 }
