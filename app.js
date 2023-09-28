@@ -1426,7 +1426,7 @@ async function getData(newFood, apiKey) {
   console.log(myData);
 
   // Get picture URL
-  const pictureURL = myData.results[0].urls.full;
+  const pictureURL = myData.results[0].urls.regular;
 
   // Get artist attribution details
   const artistName = myData.results[0].user.name;
@@ -1454,7 +1454,7 @@ function createImg() {
   imageDiv.innerHTML = "";
   const image = document.createElement("img");
   imageDiv.appendChild(image);
-  image.style.maxWidth = "400px";
+
   return image;
 }
 
