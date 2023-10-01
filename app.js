@@ -811,10 +811,10 @@ function createArtistCredits(artistName, artistURL) {
 
 // Get next food when buttons are clicked ** Main function
 async function getNextFood() {
-  try {
-    //Get new food name
-    const newFood = randomFood();
+  //Get new food name
+  const newFood = randomFood();
 
+  try {
     // h1 textcontent = food name
     title.textContent = newFood;
 
