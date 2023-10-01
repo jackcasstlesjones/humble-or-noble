@@ -1443,11 +1443,14 @@ function randomFunc(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Get random food from array using random number
+// Remove and return random food from array using random number, makes sure that foods can't be picked twice
 function randomFood() {
   const randomNumber = randomFunc(arrayLength);
-  return foods[randomNumber];
+  const randomFood = foods.splice(randomNumber, 1);
+  return randomFood;
 }
+
+function removeFoodFromArray(index) {}
 
 // Create image element and append it to image div
 function createImg() {
