@@ -811,19 +811,23 @@ function createArtistCredits(artistName, artistURL) {
 
 // Get next food when buttons are clicked ** Main function
 async function getNextFood() {
-  //Get new food name
-  const newFood = randomFood();
+  try {
+    //Get new food name
+    const newFood = randomFood();
 
-  // h1 textcontent = food name
-  title.textContent = newFood;
+    // h1 textcontent = food name
+    title.textContent = newFood;
 
-  // Get picture URL from Unsplash
-  const pictureURL = await getData(newFood, apiKey);
-  console.log(pictureURL);
+    // Get picture URL from Unsplash
+    const pictureURL = await getData(newFood, apiKey);
 
-  // Create image and set it's URL as the unsplash URL
-  const image = createImg();
-  image.src = pictureURL;
+    // Create image and set it's URL as the unsplash URL
+    const image = createImg();
+    image.src = pictureURL;
+  } catch {
+    console.log(`There has been an error with the food ${newFood}`);
+    getNextFood();
+  }
 }
 
 getNextFood();
